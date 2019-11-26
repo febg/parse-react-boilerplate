@@ -1,0 +1,14 @@
+{
+    "local": {
+        "writeToFile": true,
+        "filePath": "logs.txt"
+    },
+    "externalSevices": true,
+
+    "services": [
+        {
+            "isValid": true,
+            "url": "http://localhost:5000"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "parse-react-boilerplate",
+  "version": "1.0.0",
+  "description": "Parse Server as Express module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/febg/parse-react-boilerplate.git"
+  },
+  "author": "Felipe Ballesteros",
+  "license": "ISC",
+  "dependencies": {
+    "apisauce": "^1.0.2",
+    "axios": "^0.19.0",
+    "cli-box": "^6.0.9",
+    "esm": "^3.2.25",
+    "express": "^4.16.4",
+    "mongodb": "^3.3.3",
+    "parse": "^2.8.0",
+    "parse-server": "^3.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "nodemonConfig": {
+    "exec": "node -r esm index.js",
+    "ignore": [
+      "./logs"
+    ],
+    "ext": "js, html, css, json"
+  }
+}

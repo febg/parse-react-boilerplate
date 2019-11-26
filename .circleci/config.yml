@@ -1,0 +1,63 @@
+version: 2.1
+
+jobs:
+    build:
+        machine: true
+        working_directory: ~/parse-react-boilerplate
+        steps:
+            - checkout
+
+            # Install node 10 required by Parse
+            - run: |
+                echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+                echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+            - run: |
+                nvm install v10
+                node -v
+                nvm alias default v10
+            - run : |
+                npm install
+
+            # Start docker service containers
+            - run: docker-compose -f docker-compose-testing.yml up -d
+
+            # Run parse server tests
+            - run: |
+                cd parse_server && npm install
+            - run: |
+                ./scripts/test.sh "parse_server"
+
+            # Restart container services
+            - run: docker-compose down
+            - run: docker-compose -f docker-compose-testing.yml up -d
+
+            # Run web client tests
+            - run: |
+                cd web_client && npm install
+            - run: |
+                ./scripts/test.sh "web_client"
+            - run: |
+                docker-compose down
+
+    deploy:
+        machine: true
+        working_directory: ~/parse-react-boilerplate
+        steps: 
+            # Log in to docker deamon 
+            - checkout
+            - run: |
+                echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+            # TODO: Decide between docker based or secure copy deployment
+
+
+workflows:
+    version: 2
+    build-test-and-deploy:
+        jobs:
+            - build
+            - deploy:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only: master

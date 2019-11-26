@@ -1,0 +1,22 @@
+version: '3'
+services:
+
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+
+    parse:
+        build: 'parse_server'
+        ports:
+            - 1337:1337
+        links:
+            - mongo
+        environment:
+            - VERBOSE=1
+            - APP_ID=yourappid
+            - MASTER_KEY=yourmasterkey
+            - DATABASE_URI=mongodb://mongo:27017/dev
+            - SERVER_PORT=1337
+            - JAVASCRIPT_KEY=javascriptKey
+            - SERVER_URL=http://localhost:1337/parse

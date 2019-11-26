@@ -1,0 +1,53 @@
+
+version: '3'
+services:
+
+    web_client:
+        image: 'parse-react-boilerplate/web_client'
+        ports:
+            - 3000:3000
+        volumes:
+            - './web_client:/web_client'
+        environment:
+            # All env vars accessible to React must start with REACT_APP_
+            - REACT_APP_PARSE_WS_URL=ws://localhost:1337/parse
+            - REACT_APP_PARSE_HTTP_URL=http://localhost:1337/parse
+            - REACT_APP_PARSE_APP_ID=yourappid
+            - REACT_APP_PARSE_JS_KEY=javascriptKey
+
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - ./data-db:/data/db
+
+    dashboard:
+        image: parseplatform/parse-dashboard
+        ports:
+            - 4050:4040
+        environment:
+            - PARSE_DASHBOARD_SERVER_URL=http://localhost:1337/parse
+            - PARSE_DASHBOARD_APP_ID=yourappid
+            - PARSE_DASHBOARD_MASTER_KEY=yourmasterkey
+            - PARSE_DASHBOARD_APP_NAME=MyApp
+            - PARSE_DASHBOARD_ALLOW_INSECURE_HTTP=1
+            - PARSE_DASHBOARD_USER_ID=user
+            - PARSE_DASHBOARD_USER_PASSWORD=pass
+
+    parse:
+        image: 'parse-react-boilerplate/parse_server'
+        ports:
+            - 1337:1337
+        links:
+            - mongo
+        volumes:
+            - ./parse_server:/parse
+        environment:
+            - VERBOSE=1
+            - APP_ID=yourappid
+            - MASTER_KEY=yourmasterkey
+            - DATABASE_URI=mongodb://mongo:27017/dev
+            - SERVER_PORT=1337
+            - JAVASCRIPT_KEY=javascriptKey
+            - SERVER_URL=http://localhost:1337/parse

@@ -1,0 +1,29 @@
+.chatPane {
+    width: 400px;
+    height: calc(100vh - 56px); /* TODO calc navbar height */
+    display: flex;
+    flex-direction: column;
+    background-color: #e2e2e2;
+}
+
+.chatPane .messagePane {
+    flex: 1;
+    min-height: 0; /* Needed to stop this div from growing larger than parent */
+}
+
+.chatPane .messageWrapper {
+    padding: 0 10px 0 5px;
+}
+
+.inputBar {
+    display: flex;
+}
+
+.inputBar input {
+    flex: 1;
+}
+
+.messageTop {
+    display: flex;
+    justify-content: space-between;
+}
