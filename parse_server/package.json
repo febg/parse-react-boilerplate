@@ -21,7 +21,7 @@
     "express": "^4.16.4",
     "mongodb": "^3.3.3",
     "parse": "^2.8.0",
-    "parse-server": "^3.2.3"
+    "parse-server": "^4.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
